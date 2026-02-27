@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ZoomIn, ZoomOut, Share2, ShoppingCart, Upload, Undo, Redo } from "lucide-react";
+import { ArrowLeft, ZoomIn, ZoomOut, Share2, Upload, Undo, Redo, Info } from "lucide-react";
 import PhoneCustomizerCanvas from "@/components/customizer/PhoneCustomizerCanvas";
 import Link from "next/link";
 
@@ -28,52 +28,52 @@ export default function PersonalizarPage() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row h-[calc(100vh-5rem)] bg-background overflow-hidden relative selection:bg-accent selection:text-white">
+        <div className="flex flex-col md:flex-row h-[calc(100vh-72px)] mt-[72px] bg-[#F5F5F7] dark:bg-[#0A0A0A] overflow-hidden relative selection:bg-foreground/10">
 
             {/* HEADER MOBILE */}
-            <div className="md:hidden flex items-center justify-between p-4 border-b border-border/40 bg-card z-10 shadow-sm">
+            <div className="md:hidden flex items-center justify-between p-4 border-b border-foreground/[0.03] bg-background z-10">
                 <Link href="/">
-                    <Button variant="ghost" size="icon" className="text-foreground">
-                        <ArrowLeft className="w-5 h-5" />
+                    <Button variant="ghost" size="icon" className="hover:bg-transparent text-foreground/70">
+                        <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
                     </Button>
                 </Link>
-                <span className="font-semibold text-sm">Personalizando Case</span>
+                <span className="font-medium text-[13px] tracking-wide">ESTÚDIO DE CRIAÇÃO</span>
                 <div className="w-8" />
             </div>
 
             {/* RENDER VIEW (Left Side) */}
-            <div className="flex-1 relative flex flex-col bg-muted/30">
+            <div className="flex-1 relative flex flex-col items-center justify-center">
 
-                {/* Floating Toolbar */}
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10 bg-card/80 backdrop-blur-md p-2 rounded-2xl shadow-xl border border-border/50 hidden md:flex">
+                {/* Floating Toolbar Minimalist */}
+                <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-1 z-10 hidden md:flex">
                     <Link href="/" passHref>
-                        <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted" title="Voltar">
-                            <ArrowLeft className="w-5 h-5 text-muted-foreground" />
+                        <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground" title="Voltar">
+                            <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={1.5} />
                         </Button>
                     </Link>
-                    <div className="h-px bg-border/50 my-1 w-full" />
-                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted" onClick={() => setScale(s => s * 1.1)}>
-                        <ZoomIn className="w-5 h-5 text-foreground" />
+                    <div className="h-px bg-foreground/[0.05] my-2 w-6 mx-auto" />
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground" onClick={() => setScale(s => s * 1.1)}>
+                        <ZoomIn className="w-[18px] h-[18px]" strokeWidth={1.5} />
                     </Button>
-                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted" onClick={() => setScale(s => s * 0.9)}>
-                        <ZoomOut className="w-5 h-5 text-foreground" />
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground" onClick={() => setScale(s => s * 0.9)}>
+                        <ZoomOut className="w-[18px] h-[18px]" strokeWidth={1.5} />
                     </Button>
-                    <div className="h-px bg-border/50 my-1 w-full" />
-                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted disabled:opacity-50" disabled>
-                        <Undo className="w-5 h-5 text-foreground" />
+                    <div className="h-px bg-foreground/[0.05] my-2 w-6 mx-auto" />
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground disabled:opacity-30" disabled>
+                        <Undo className="w-[18px] h-[18px]" strokeWidth={1.5} />
                     </Button>
-                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted disabled:opacity-50" disabled>
-                        <Redo className="w-5 h-5 text-foreground" />
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground disabled:opacity-30" disabled>
+                        <Redo className="w-[18px] h-[18px]" strokeWidth={1.5} />
                     </Button>
                 </div>
 
                 {/* The Canvas Area */}
                 <div className="flex-1 w-full h-full flex items-center justify-center overflow-hidden">
-                    <div className="relative transition-transform duration-200" style={{ transform: `scale(${scale})` }}>
-                        <div className="p-4 rounded-[4rem] bg-white/50 backdrop-blur-3xl shadow-2xl border border-white/20">
+                    <div className="relative transition-transform duration-300 ease-out" style={{ transform: `scale(${scale})` }}>
+                        <div className="p-2 rounded-[3.8rem] bg-background shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-foreground/[0.03]">
                             <PhoneCustomizerCanvas
-                                width={300}
-                                height={620}
+                                width={280}
+                                height={580}
                                 uploadedImage={uploadedImage}
                             />
                         </div>
@@ -81,53 +81,59 @@ export default function PersonalizarPage() {
                 </div>
 
                 {/* View Toggles (Left / Right side of the case) */}
-                <div className="absolute bottom-6 left-6 flex gap-3 z-10">
-                    <button className="flex flex-col items-center gap-2 p-2 bg-card rounded-xl border-2 border-primary shadow-lg transition-transform hover:scale-105">
-                        <div className="w-10 h-16 bg-muted rounded-md border border-border"></div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider">Traseira</span>
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 bg-background/80 backdrop-blur-xl border border-foreground/[0.03] rounded-full z-10 shadow-sm">
+                    <button className="px-5 py-2 text-[11px] font-medium tracking-widest uppercase bg-foreground text-background rounded-full transition-colors">
+                        Costas
+                    </button>
+                    <button className="px-5 py-2 text-[11px] font-medium tracking-widest uppercase text-foreground/60 hover:text-foreground transition-colors">
+                        Frente
+                    </button>
+                    <button className="px-5 py-2 text-[11px] font-medium tracking-widest uppercase text-foreground/60 hover:text-foreground transition-colors">
+                        Interior
                     </button>
                 </div>
             </div>
 
             {/* SIDEBAR CONFIGURATION (Right Side) */}
-            <div className="w-full md:w-[400px] lg:w-[450px] bg-card border-l border-border/50 flex flex-col h-full shadow-2xl z-20">
+            <div className="w-full md:w-[420px] bg-background border-l border-foreground/[0.03] flex flex-col h-full z-20">
 
-                <div className="p-8 border-b border-border/50 space-y-3">
-                    <div className="flex justify-between items-start">
-                        <h1 className="text-3xl font-extrabold tracking-tighter">Capinha Anti-Impacto</h1>
-                        <Button variant="outline" size="icon" className="rounded-full shadow-sm hover:border-foreground/50"><Share2 className="w-4 h-4" /></Button>
+                <div className="p-8 border-b border-foreground/[0.03] flex justify-between items-start">
+                    <div className="space-y-2">
+                        <p className="text-[11px] font-semibold tracking-widest uppercase text-foreground/40">Customização</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-foreground">iPhone 15 Pro Max</h1>
+                        <p className="text-lg font-light text-foreground/80 pt-1">R$ 149,00</p>
                     </div>
-                    <p className="text-4xl font-light text-foreground flex items-baseline gap-1">
-                        <span className="text-lg text-muted-foreground mr-1">R$</span>89,90
-                    </p>
+                    <Button variant="ghost" size="icon" className="rounded-full w-8 h-8 text-foreground/40 hover:text-foreground hover:bg-foreground/[0.03]">
+                        <Share2 className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                    </Button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide">
 
-                    {/* Tamanhos / Modelos */}
-                    <div className="space-y-5">
+                    {/* Aparelho Selection */}
+                    <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Modelo do Aparelho</h3>
-                            <span className="text-xs text-accent font-semibold cursor-pointer hover:underline">Alterar</span>
+                            <h3 className="text-[11px] font-bold uppercase tracking-widest text-foreground/70">Aparelho Selecionado</h3>
+                            <button className="text-[11px] font-medium text-foreground underline underline-offset-4 hover:opacity-70 transition-opacity">Trocar</button>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="border-2 border-primary bg-background rounded-2xl p-5 flex flex-col items-center gap-4 cursor-pointer shadow-sm relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-8 h-8 bg-primary rounded-bl-2xl flex items-center justify-center">
-                                    <span className="text-primary-foreground text-xs font-bold">✓</span>
-                                </div>
-                                <div className="w-10 h-20 bg-foreground rounded-[0.4rem] shadow-inner"></div>
-                                <span className="text-sm font-semibold text-center leading-tight">iPhone 15 <br /> <span className="text-xs font-normal text-muted-foreground">Standard</span></span>
+
+                        <div className="flex items-center gap-4 p-4 border border-foreground/[0.08] rounded-2xl bg-background">
+                            <div className="w-12 h-20 bg-[#f0f0f0] dark:bg-[#1a1a1a] rounded-lg border border-foreground/[0.05] flex items-center justify-center">
+                                {/* small mockup icon placeholder */}
                             </div>
-                            <div className="border border-border/50 hover:border-primary/50 bg-muted/30 rounded-2xl p-5 flex flex-col items-center gap-4 cursor-pointer opacity-70 hover:opacity-100 transition-all hover:shadow-sm">
-                                <div className="w-12 h-24 bg-muted-foreground rounded-[0.5rem] shadow-inner"></div>
-                                <span className="text-sm font-semibold text-center leading-tight">iPhone 15 <br /> <span className="text-xs font-normal text-muted-foreground">Pro Max</span></span>
+                            <div>
+                                <p className="text-sm font-semibold">iPhone 15 Pro Max</p>
+                                <p className="text-[12px] text-foreground/50 font-light mt-0.5">Série Ultra Proteção</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Upload Área */}
-                    <div className="space-y-5">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Sua Arte</h3>
+                    {/* Upload Área Minimalista */}
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                            <h3 className="text-[11px] font-bold uppercase tracking-widest text-foreground/70">Design da Superfície</h3>
+                            <Info className="w-3 h-3 text-foreground/30" />
+                        </div>
 
                         <input
                             type="file"
@@ -137,26 +143,39 @@ export default function PersonalizarPage() {
                             className="hidden"
                         />
 
-                        <div onClick={triggerUpload} className="border-2 border-dashed border-border/50 hover:border-accent bg-muted/20 rounded-3xl p-10 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all group hover:bg-accent/5">
-                            <div className="w-14 h-14 rounded-full bg-accent/10 text-accent flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Upload className="w-6 h-6" strokeWidth={2} />
+                        <div
+                            onClick={triggerUpload}
+                            className="group relative border border-dashed border-foreground/20 hover:border-foreground/40 bg-foreground/[0.01] rounded-2xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all"
+                        >
+                            <div className="w-10 h-10 rounded-full bg-background border border-foreground/[0.05] shadow-sm text-foreground flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                                <Upload className="w-[18px] h-[18px]" strokeWidth={1.5} />
                             </div>
                             <div className="text-center">
-                                <p className="font-semibold text-foreground">
-                                    {uploadedImage ? "Imagem enviada! Clique para trocar." : "Clique para enviar imagem"}
+                                <p className="text-[13px] font-medium text-foreground">
+                                    {uploadedImage ? "Imagem carregada (clique para trocar)" : "Faça upload da sua arte"}
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-2">Formatos suportados: .JPG, .PNG<br />Resolução ideal: 1080x2400px</p>
+                                <p className="text-[11px] text-foreground/40 font-light mt-1.5">
+                                    JPG, PNG. Máx 10MB.<br />Aspect Ratio 9:19.
+                                </p>
                             </div>
                         </div>
+
+                        {uploadedImage && (
+                            <div className="flex justify-end pt-1">
+                                <button onClick={() => setUploadedImage(null)} className="text-[11px] text-red-500 hover:text-red-600 font-medium">Remover Imagem</button>
+                            </div>
+                        )}
                     </div>
 
                 </div>
 
-                <div className="p-6 border-t border-border/50 bg-background/80 backdrop-blur-xl">
-                    <Button className="w-full h-16 text-lg rounded-2xl bg-accent hover:bg-accent/90 text-white shadow-xl shadow-accent/20 gap-3 group font-bold tracking-wide">
-                        <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                        FECHAR PEDIDO
+                <div className="p-6 border-t border-foreground/[0.03] bg-background">
+                    <Button className="w-full h-14 rounded-full bg-foreground hover:bg-foreground/90 text-background text-[13px] font-medium tracking-wide shadow-none transition-all hover:scale-[1.02] active:scale-[0.98]">
+                        Adicionar ao Carrinho
                     </Button>
+                    <p className="text-center text-[10px] text-foreground/40 mt-4 font-light">
+                        Produção em 2-3 dias úteis. Frete calculado no checkout.
+                    </p>
                 </div>
 
             </div>

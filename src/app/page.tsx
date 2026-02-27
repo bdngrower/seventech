@@ -1,152 +1,157 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Shield, Truck, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen selection:bg-accent selection:text-white">
-      {/* 1. Hero Section - Minimalist & Glassy */}
-      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
-        {/* Soft dynamic gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-muted to-background z-0" />
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl opacity-50 mix-blend-multiply" />
+    <div className="flex min-h-screen flex-col bg-background selection:bg-foreground/10">
 
-        <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center space-y-10">
-          <div className="inline-flex items-center rounded-full border border-border bg-white/50 backdrop-blur-md px-4 py-1.5 text-sm font-medium transition-colors hover:bg-white/80 dark:bg-black/50 dark:hover:bg-black/80">
-            <span className="flex h-2 w-2 rounded-full bg-accent mr-2 animate-pulse"></span>
-            Nova Coleção: Capinhas Anti-Impacto Premium
-          </div>
+      {/* Brutalist / Minimalist Hero */}
+      <section className="relative flex h-[90vh] min-h-[700px] w-full items-center justify-center overflow-hidden pt-20">
+        <div className="absolute inset-0 bg-[#F5F5F7] dark:bg-[#000000] -z-10" />
 
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-foreground max-w-5xl leading-[1.1]">
-            Proteção invisível.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent/70">
-              Personalidade única.
-            </span>
+        <div className="container relative z-10 mx-auto px-6 text-center mt-12">
+          <h1 className="mx-auto max-w-4xl text-[10vw] font-bold leading-[0.85] tracking-tighter text-foreground md:text-[8vw] lg:text-[7rem]">
+            Faça. <br className="md:hidden" />A Sua. <br className="md:hidden" />
+            <span className="text-foreground/40 italic font-medium">Marcante.</span>
           </h1>
-
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl font-light">
-            Crie capinhas exclusivas com a sua arte. Proteção premium militar com um visual minimalista e de alto padrão.
+          <p className="mx-auto mt-8 max-w-2xl text-[15px] md:text-lg font-light tracking-wide text-foreground/60">
+            O design que você imagina. A proteção que seu dispositivo precisa.
+            Personalize sua própria capa protetora de grau militar no nosso estúdio 3D.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-6 pt-8 w-full sm:w-auto">
-            <Link href="/personalizar" className="w-full sm:w-auto">
-              <Button size="lg" className="text-lg px-10 py-7 h-auto w-full rounded-2xl gap-3 group bg-foreground text-background hover:bg-foreground/90 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                Personalizar Agora
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <div className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row">
+            <Link href="/personalizar">
+              <Button
+                size="lg"
+                className="h-14 rounded-full bg-foreground px-10 text-[13px] font-medium tracking-wide text-background hover:bg-foreground/90 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-foreground/10"
+              >
+                Criar Agora <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
+            </Link>
+            <Link
+              href="/produtos"
+              className="group flex h-14 items-center justify-center rounded-full px-8 text-[13px] font-medium tracking-wide text-foreground hover:bg-foreground/[0.03] transition-colors"
+            >
+              Explorar Coleção
             </Link>
           </div>
 
-          {/* Minimal Trust Badges */}
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16 pt-16 text-sm font-medium text-muted-foreground uppercase tracking-widest">
-            <div className="flex flex-col items-center justify-center gap-3">
-              <Shield className="w-6 h-6 text-foreground" strokeWidth={1.5} />
-              <span>Grau Militar</span>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-3">
-              <Zap className="w-6 h-6 text-foreground" strokeWidth={1.5} />
-              <span>Impressão 4K</span>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-3">
-              <Truck className="w-6 h-6 text-foreground" strokeWidth={1.5} />
-              <span>Frete Expresso</span>
+          {/* Minimalist device mockup hint */}
+          <div className="mt-20 mx-auto w-full max-w-[800px] h-[300px] rounded-t-[3rem] bg-gradient-to-t from-background to-transparent border-t border-x border-foreground/[0.05] relative overflow-hidden">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[240px] h-[400px] bg-foreground/5 rounded-[3rem] border-8 border-background shadow-2xl flex items-center justify-center">
+              <span className="text-foreground/20 text-xs tracking-widest uppercase font-medium">Crie sua Arte</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Seleção de Modelos - Em Cards "Glass" */}
-      <section className="py-32 bg-card relative">
+      {/* Value Proposition - Clean Grid */}
+      <section className="w-full bg-background py-32 md:py-48 border-t border-foreground/[0.03]">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
-            <div className="space-y-4 max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-                Feito para o seu aparelho
-              </h2>
-              <p className="text-xl text-muted-foreground font-light">
-                Modelagem perfeita em silicone premium e policarbonato para os principais smartphones do mercado.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-6xl mx-auto">
+            <div className="flex flex-col items-center text-center space-y-5">
+              <div className="h-16 w-16 rounded-full bg-foreground/[0.03] flex items-center justify-center mb-2">
+                <Sparkles className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">Design Ilimitado</h3>
+              <p className="text-[14px] leading-relaxed font-light text-foreground/60 max-w-[280px]">
+                Upload de imagens, textos e padrões. Sua criatividade é o limite no nosso editor Studio.
               </p>
             </div>
-            <Button variant="ghost" className="text-foreground font-semibold text-lg group hidden md:flex">
-              Ver todos os modelos <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+
+            <div className="flex flex-col items-center text-center space-y-5">
+              <div className="h-16 w-16 rounded-full bg-foreground/[0.03] flex items-center justify-center mb-2">
+                <ShieldCheck className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">Ultra Proteção</h3>
+              <p className="text-[14px] leading-relaxed font-light text-foreground/60 max-w-[280px]">
+                Laterais absorventes de impacto tátil e fundo rígido resistente a riscos.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center space-y-5">
+              <div className="h-16 w-16 rounded-full bg-foreground/[0.03] flex items-center justify-center mb-2">
+                <Zap className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">Impressão HD</h3>
+              <p className="text-[14px] leading-relaxed font-light text-foreground/60 max-w-[280px]">
+                Cores precisas e vibrantes aplicadas diretamente na superfície com cura UV de alta durabilidade.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured / Bestsellers Minimalist Section */}
+      <section className="relative w-full overflow-hidden bg-[#F5F5F7] dark:bg-[#0A0A0A] py-32 md:py-48">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-20 flex flex-col items-end md:flex-row md:justify-between md:items-end gap-6">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-foreground max-w-md">
+              Coleções Especiais.
+            </h2>
+            <Link
+              href="/produtos"
+              className="text-[13px] uppercase tracking-widest font-medium text-foreground hover:opacity-70 transition-opacity border-b border-foreground/20 pb-1"
+            >
+              Ver Todas
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {["iPhone 15 Pro Max", "Galaxy S24 Ultra", "iPhone 14 Pro", "Galaxy S23"].map((model, i) => (
-              <Link key={i} href={`/personalizar?model=${encodeURIComponent(model)}`} className="group block h-full">
-                <div className="flex flex-col h-full bg-background/50 backdrop-blur-sm border border-border/50 rounded-3xl p-8 hover:bg-background hover:border-foreground/20 hover:shadow-2xl transition-all duration-500 cursor-pointer">
-                  {/* Minimal Phone Mockup representation */}
-                  <div className="flex-1 flex items-center justify-center py-12">
-                    <div className="w-24 h-48 rounded-[2.5rem] border-[6px] border-muted group-hover:border-accent/40 bg-card shadow-inner transition-colors duration-500 relative flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full border border-border/50 bg-background/50 backdrop-blur-sm flex items-center justify-center absolute -right-4 -bottom-4 shadow-sm group-hover:scale-110 transition-transform">
-                        <span className="text-xs font-bold text-foreground">🖌️</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pt-6 border-t border-border/50">
-                    <h3 className="font-bold text-xl text-foreground group-hover:text-accent transition-colors">{model}</h3>
-                    <p className="text-muted-foreground mt-2 font-medium">Personalize →</p>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Produto 1 */}
+            <Link href="/produto/case-carbon-black" className="group block">
+              <div className="aspect-[4/5] bg-background rounded-3xl overflow-hidden relative mb-6">
+                <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02] group-hover:bg-foreground/[0.05] transition-colors duration-500">
+                  <div className="w-[180px] h-[360px] bg-black rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3" />
                 </div>
-              </Link>
-            ))}
-          </div>
-          <Button variant="ghost" className="mt-8 text-foreground font-semibold text-lg group md:hidden w-full flex justify-center">
-            Ver todos os modelos <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
-      </section>
-
-      {/* 3. Workflow Passo-a-Passo */}
-      <section className="py-32 bg-background border-t border-border/50">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-10">
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-                Design de nível estúdio, <br className="hidden md:block" />sem complicação.
-              </h2>
-              <div className="space-y-8">
-                {[
-                  { title: "Selecione o Modelo", desc: "Escolha entre nossa ampla gama de aparelhos suportados." },
-                  { title: "Faça o Upload", desc: "Arraste sua foto, arte ou padronagem para o nosso estúdio virtual." },
-                  { title: "Ajuste e Visualize", desc: "Tenha um preview 3D/HD instantâneo de como a case ficará." }
-                ].map((step, i) => (
-                  <div key={i} className="flex gap-6 group cursor-default">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-muted flex items-center justify-center text-foreground font-bold text-lg group-hover:bg-accent group-hover:text-white transition-colors duration-300">
-                      {i + 1}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-accent transition-colors">{step.title}</h3>
-                      <p className="text-muted-foreground text-lg">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
               </div>
-            </div>
-
-            {/* Abstract visual representation of the studio */}
-            <div className="relative aspect-square rounded-[3rem] bg-muted overflow-hidden border border-border">
-              <div className="absolute inset-0 bg-gradient-to-tr from-accent/10 to-transparent" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-card rounded-[2.5rem] shadow-2xl flex items-center justify-center overflow-hidden border-4 border-white/20">
-                <p className="text-muted-foreground font-mono text-sm uppercase tracking-widest opacity-50">Interactive Studio Preview</p>
+              <div className="flex justify-between items-start px-2">
+                <div>
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Onyx Black</h3>
+                  <p className="text-[13px] text-foreground/50 font-light mt-1">Série Minimal</p>
+                </div>
+                <span className="text-[13px] font-medium tracking-wide">R$ 149</span>
               </div>
-            </div>
+            </Link>
+
+            {/* Produto 2 */}
+            <Link href="/produto/case-clear-magsafe" className="group block">
+              <div className="aspect-[4/5] bg-background rounded-3xl overflow-hidden relative mb-6">
+                <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02] group-hover:bg-foreground/[0.05] transition-colors duration-500">
+                  <div className="w-[180px] h-[360px] bg-transparent border-2 border-foreground/10 rounded-[2.5rem] shadow-lg transition-transform duration-700 group-hover:scale-105 group-hover:rotate-3 backdrop-blur-md" />
+                </div>
+                <div className="absolute top-6 left-6 bg-foreground text-background text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                  Bestseller
+                </div>
+              </div>
+              <div className="flex justify-between items-start px-2">
+                <div>
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Clear Glass</h3>
+                  <p className="text-[13px] text-foreground/50 font-light mt-1">Série Transparente</p>
+                </div>
+                <span className="text-[13px] font-medium tracking-wide">R$ 129</span>
+              </div>
+            </Link>
+
+            {/* Produto 3 */}
+            <Link href="/produto/case-leather-brown" className="group block hidden lg:block">
+              <div className="aspect-[4/5] bg-background rounded-3xl overflow-hidden relative mb-6">
+                <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02] group-hover:bg-foreground/[0.05] transition-colors duration-500">
+                  <div className="w-[180px] h-[360px] bg-[#8B5A2B] rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-110" />
+                </div>
+              </div>
+              <div className="flex justify-between items-start px-2">
+                <div>
+                  <h3 className="text-base font-semibold text-foreground tracking-tight">Saddle Brown</h3>
+                  <p className="text-[13px] text-foreground/50 font-light mt-1">Série Couro</p>
+                </div>
+                <span className="text-[13px] font-medium tracking-wide">R$ 189</span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Minimal Footer CTA */}
-      <section className="py-24 bg-foreground text-background text-center">
-        <div className="container mx-auto px-6 space-y-8">
-          <h2 className="text-4xl font-bold">Pronto para começar?</h2>
-          <Link href="/personalizar" className="inline-block relative">
-            <Button size="lg" className="text-lg px-12 py-8 rounded-full bg-accent text-white hover:bg-accent/90 hover:scale-105 transition-all shadow-2xl shadow-accent/20">
-              Criar Minha Capinha Personalizada
-            </Button>
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
