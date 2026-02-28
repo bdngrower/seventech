@@ -1,105 +1,119 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Stage, Layer, Image as KonvaImage, Rect, Group } from 'react-konva';
+import { Stage, Layer, Image as KonvaImage, Group } from 'react-konva';
 import useImage from 'use-image';
 
-export default function PhoneCustomizerCanvas({
-    width = 280,
-    height = 580,
-    uploadedImage,
-}: any) {
+interface PhoneCustomizerCanvasProps {
+    width?: number;
+    height?: number;
+    uploadedImage: string | null;
+    caseColor?: string;
+}
 
-    const [userImg] = useImage(uploadedImage);
+export default function PhoneCustomizerCanvas({
+    width = 260,
+    height = 520,
+    uploadedImage,
+    caseColor = "#1a1a1a",
+}: PhoneCustomizerCanvasProps) {
+
+    const [userImg] = useImage(uploadedImage || "");
 
     const [imageProps, setImageProps] = useState({
         x: 0,
         y: 0,
         width: 200,
-        height: 300,
+        height: 400,
     });
+
+    // Phone case dimensions (printable area inside the case)
+    const caseRadius = 36;
+    const printAreaPadding = 16;
+    const printX = printAreaPadding;
+    const printY = printAreaPadding + 50; // top offset for camera
+    const printW = width - printAreaPadding * 2;
+    const printH = height - printAreaPadding * 2 - 60; // bottom offset
 
     const centerImage = useCallback(() => {
         if (userImg) {
-            const scale = Math.max(width / userImg.width, height / userImg.height);
+            const scaleX = printW / userImg.width;
+            const scaleY = printH / userImg.height;
+            const s = Math.max(scaleX, scaleY);
             setImageProps({
-                x: width / 2 - (userImg.width * scale) / 2,
-                y: height / 2 - (userImg.height * scale) / 2,
-                width: userImg.width * scale,
-                height: userImg.height * scale,
+                x: printX + printW / 2 - (userImg.width * s) / 2,
+                y: printY + printH / 2 - (userImg.height * s) / 2,
+                width: userImg.width * s,
+                height: userImg.height * s,
             });
         }
-    }, [userImg, width, height]);
+    }, [userImg, printW, printH, printX, printY]);
 
     useEffect(() => {
-        let mounted = true;
-        if (mounted) {
-            centerImage();
-        }
-        return () => { mounted = false; };
+        centerImage();
     }, [centerImage]);
 
     return (
-        <div className="relative w-full h-full rounded-[3.5rem] overflow-hidden" style={{ width, height }}>
-            {/* Background/Base of the phone case - Placeholder */}
-            <div className="absolute inset-0 bg-white"></div>
-
-            {/* The Konva Stage */}
-            <Stage width={width} height={height} className="absolute inset-0 z-10 cursor-move">
-                <Layer>
-
-                    {/* Group handling the mask */}
-                    <Group clipFunc={(ctx) => {
-                        // Temporary clipping mask if deviceMaskUrl isn't functional (rounding corners)
-                        ctx.beginPath();
-                        ctx.moveTo(40, 0);
-                        ctx.lineTo(width - 40, 0);
-                        ctx.quadraticCurveTo(width, 0, width, 40);
-                        ctx.lineTo(width, height - 40);
-                        ctx.quadraticCurveTo(width, height, width - 40, height);
-                        ctx.lineTo(40, height);
-                        ctx.quadraticCurveTo(0, height, 0, height - 40);
-                        ctx.lineTo(0, 40);
-                        ctx.quadraticCurveTo(0, 0, 40, 0);
-                        ctx.closePath();
-                    }}>
-                        {userImg && (
-                            <KonvaImage
-                                image={userImg}
-                                {...imageProps}
-                                draggable
-                                onDragEnd={(e) => {
-                                    setImageProps({
-                                        ...imageProps,
-                                        x: e.target.x(),
-                                        y: e.target.y(),
-                                    });
-                                }}
-                            />
-                        )}
-                    </Group>
-
-                </Layer>
-
-                {/* Overlay Layer (Camera hole, buttons reflections) */}
-                <Layer listening={false}>
-                    {/* Fake Camera Hole Placeholder */}
-                    <Rect
-                        x={20} y={20} width={80} height={80}
-                        cornerRadius={20}
-                        fill="rgba(0,0,0,0.8)"
-                        stroke="rgba(255,255,255,0.2)"
-                        strokeWidth={2}
+        <Stage width={width} height={height} className="cursor-move">
+            <Layer>
+                {/* Case body / background */}
+                <Group clipFunc={(ctx) => {
+                    ctx.beginPath();
+                    ctx.moveTo(caseRadius, 0);
+                    ctx.lineTo(width - caseRadius, 0);
+                    ctx.quadraticCurveTo(width, 0, width, caseRadius);
+                    ctx.lineTo(width, height - caseRadius);
+                    ctx.quadraticCurveTo(width, height, width - caseRadius, height);
+                    ctx.lineTo(caseRadius, height);
+                    ctx.quadraticCurveTo(0, height, 0, height - caseRadius);
+                    ctx.lineTo(0, caseRadius);
+                    ctx.quadraticCurveTo(0, 0, caseRadius, 0);
+                    ctx.closePath();
+                }}>
+                    {/* Base color of the case */}
+                    <KonvaImage
+                        x={0}
+                        y={0}
+                        width={width}
+                        height={height}
+                        fill={caseColor}
+                        image={undefined}
                     />
-                    {/* Fake Dynamic Island or Top Cutout */}
-                    <Rect
-                        x={width / 2 - 40} y={15} width={80} height={20}
-                        cornerRadius={10}
-                        fill="black"
-                    />
-                </Layer>
-            </Stage>
 
-        </div>
+                    {/* User uploaded image (draggable) */}
+                    {userImg && (
+                        <KonvaImage
+                            image={userImg}
+                            {...imageProps}
+                            draggable
+                            onDragEnd={(e) => {
+                                setImageProps({
+                                    ...imageProps,
+                                    x: e.target.x(),
+                                    y: e.target.y(),
+                                });
+                            }}
+                        />
+                    )}
+                </Group>
+            </Layer>
+
+            {/* Overlay: Camera cutout */}
+            <Layer listening={false}>
+                {/* Camera module area */}
+                <Group>
+                    {/* Camera background */}
+                    <KonvaImage
+                        x={width - 95}
+                        y={12}
+                        width={80}
+                        height={80}
+                        cornerRadius={18}
+                        fill="rgba(0,0,0,0.85)"
+                        image={undefined}
+                    />
+                </Group>
+            </Layer>
+        </Stage>
     );
 }

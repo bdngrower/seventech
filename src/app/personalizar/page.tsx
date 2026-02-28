@@ -1,14 +1,48 @@
 "use client";
 
 import { useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ZoomIn, ZoomOut, Share2, Upload, Undo, Redo, Info } from "lucide-react";
-import PhoneCustomizerCanvas from "@/components/customizer/PhoneCustomizerCanvas";
+import { ArrowLeft, ZoomIn, ZoomOut, Upload, Smartphone, ChevronDown, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+
+// Dynamic import to avoid SSR hydration errors with react-konva
+const PhoneCustomizerCanvas = dynamic(
+    () => import("@/components/customizer/PhoneCustomizerCanvas"),
+    { ssr: false, loading: () => <div className="w-[260px] h-[520px] rounded-[36px] bg-neutral-200 dark:bg-neutral-800 animate-pulse" /> }
+);
+
+// Available phone models
+const PHONE_MODELS = [
+    { id: "iphone-17-pro-max", name: "iPhone 17 Pro Max", brand: "Apple" },
+    { id: "iphone-17-pro", name: "iPhone 17 Pro", brand: "Apple" },
+    { id: "iphone-16-pro-max", name: "iPhone 16 Pro Max", brand: "Apple" },
+    { id: "iphone-16-pro", name: "iPhone 16 Pro", brand: "Apple" },
+    { id: "iphone-16", name: "iPhone 16", brand: "Apple" },
+    { id: "iphone-15-pro-max", name: "iPhone 15 Pro Max", brand: "Apple" },
+    { id: "iphone-15", name: "iPhone 15", brand: "Apple" },
+    { id: "galaxy-s26-ultra", name: "Galaxy S26 Ultra", brand: "Samsung" },
+    { id: "galaxy-s25-ultra", name: "Galaxy S25 Ultra", brand: "Samsung" },
+    { id: "galaxy-s24-ultra", name: "Galaxy S24 Ultra", brand: "Samsung" },
+];
+
+// Case colors
+const CASE_COLORS = [
+    { id: "black", hex: "#1a1a1a", name: "Preto" },
+    { id: "white", hex: "#f5f5f5", name: "Branco" },
+    { id: "midnight", hex: "#191970", name: "Azul Meia-Noite" },
+    { id: "forest", hex: "#1b4332", name: "Verde Floresta" },
+    { id: "wine", hex: "#722f37", name: "Vinho" },
+    { id: "transparent", hex: "transparent", name: "Transparente" },
+];
 
 export default function PersonalizarPage() {
     const [scale, setScale] = useState(1);
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+    const [selectedModel, setSelectedModel] = useState(PHONE_MODELS[0]);
+    const [selectedColor, setSelectedColor] = useState(CASE_COLORS[0]);
+    const [showModelPicker, setShowModelPicker] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -28,158 +62,234 @@ export default function PersonalizarPage() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row h-[calc(100vh-72px)] mt-[72px] bg-[#F5F5F7] dark:bg-[#0A0A0A] overflow-hidden relative selection:bg-foreground/10">
+        <div className="flex flex-col md:flex-row h-screen bg-[#fafafa] dark:bg-[#0a0a0a] overflow-hidden">
 
-            {/* HEADER MOBILE */}
-            <div className="md:hidden flex items-center justify-between p-4 border-b border-foreground/[0.03] bg-background z-10">
-                <Link href="/">
-                    <Button variant="ghost" size="icon" className="hover:bg-transparent text-foreground/70">
-                        <ArrowLeft className="w-5 h-5" strokeWidth={1.5} />
-                    </Button>
-                </Link>
-                <span className="font-medium text-[13px] tracking-wide">ESTÚDIO DE CRIAÇÃO</span>
-                <div className="w-8" />
-            </div>
+            {/* ===== PREVIEW AREA (Left) ===== */}
+            <div className="flex-1 relative flex items-center justify-center bg-[#f0f0f0] dark:bg-[#111]">
 
-            {/* RENDER VIEW (Left Side) */}
-            <div className="flex-1 relative flex flex-col items-center justify-center">
-
-                {/* Floating Toolbar Minimalist */}
-                <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-1 z-10 hidden md:flex">
-                    <Link href="/" passHref>
-                        <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground" title="Voltar">
-                            <ArrowLeft className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                        </Button>
+                {/* Top bar inside preview */}
+                <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-20">
+                    <Link href="/" className="flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors">
+                        <ArrowLeft className="w-4 h-4" strokeWidth={2} />
+                        <span className="text-[13px] font-medium hidden sm:inline">Voltar</span>
                     </Link>
-                    <div className="h-px bg-foreground/[0.05] my-2 w-6 mx-auto" />
-                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground" onClick={() => setScale(s => s * 1.1)}>
-                        <ZoomIn className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground" onClick={() => setScale(s => s * 0.9)}>
-                        <ZoomOut className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                    </Button>
-                    <div className="h-px bg-foreground/[0.05] my-2 w-6 mx-auto" />
-                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground disabled:opacity-30" disabled>
-                        <Undo className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-foreground/[0.03] text-foreground/50 hover:text-foreground disabled:opacity-30" disabled>
-                        <Redo className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                    </Button>
+                    <div className="flex items-center gap-3 bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-full px-1 py-1 border border-black/5 dark:border-white/10">
+                        <button
+                            onClick={() => setScale(s => Math.max(0.5, s * 0.9))}
+                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                        >
+                            <ZoomOut className="w-4 h-4 text-foreground/70" strokeWidth={2} />
+                        </button>
+                        <span className="text-[11px] font-medium text-foreground/50 min-w-[36px] text-center">
+                            {Math.round(scale * 100)}%
+                        </span>
+                        <button
+                            onClick={() => setScale(s => Math.min(2, s * 1.1))}
+                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                        >
+                            <ZoomIn className="w-4 h-4 text-foreground/70" strokeWidth={2} />
+                        </button>
+                    </div>
                 </div>
 
-                {/* The Canvas Area */}
-                <div className="flex-1 w-full h-full flex items-center justify-center overflow-hidden">
-                    <div className="relative transition-transform duration-300 ease-out" style={{ transform: `scale(${scale})` }}>
-                        <div className="p-2 rounded-[3.8rem] bg-background shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-foreground/[0.03]">
+                {/* Canvas Holder */}
+                <div
+                    className="transition-transform duration-300 ease-out"
+                    style={{ transform: `scale(${scale})` }}
+                >
+                    <div className="relative">
+                        {/* Phone case shadow */}
+                        <div className="absolute -inset-3 bg-black/[0.04] dark:bg-white/[0.02] rounded-[44px] blur-xl" />
+
+                        {/* The actual canvas */}
+                        <div className="relative rounded-[40px] overflow-hidden shadow-2xl shadow-black/10 dark:shadow-black/40">
                             <PhoneCustomizerCanvas
-                                width={280}
-                                height={580}
+                                width={260}
+                                height={520}
                                 uploadedImage={uploadedImage}
+                                caseColor={selectedColor.hex}
                             />
                         </div>
                     </div>
                 </div>
 
-                {/* View Toggles (Left / Right side of the case) */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 bg-background/80 backdrop-blur-xl border border-foreground/[0.03] rounded-full z-10 shadow-sm">
-                    <button className="px-5 py-2 text-[11px] font-medium tracking-widest uppercase bg-foreground text-background rounded-full transition-colors">
-                        Costas
-                    </button>
-                    <button className="px-5 py-2 text-[11px] font-medium tracking-widest uppercase text-foreground/60 hover:text-foreground transition-colors">
-                        Frente
-                    </button>
-                    <button className="px-5 py-2 text-[11px] font-medium tracking-widest uppercase text-foreground/60 hover:text-foreground transition-colors">
-                        Interior
-                    </button>
-                </div>
+                {/* Hint text at bottom */}
+                {!uploadedImage && (
+                    <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[12px] text-foreground/30 font-light">
+                        Faça upload de uma imagem para personalizar
+                    </p>
+                )}
             </div>
 
-            {/* SIDEBAR CONFIGURATION (Right Side) */}
-            <div className="w-full md:w-[420px] bg-background border-l border-foreground/[0.03] flex flex-col h-full z-20">
 
-                <div className="p-8 border-b border-foreground/[0.03] flex justify-between items-start">
-                    <div className="space-y-2">
-                        <p className="text-[11px] font-semibold tracking-widest uppercase text-foreground/40">Customização</p>
-                        <h1 className="text-2xl font-bold tracking-tight text-foreground">iPhone 15 Pro Max</h1>
-                        <p className="text-lg font-light text-foreground/80 pt-1">R$ 149,00</p>
-                    </div>
-                    <Button variant="ghost" size="icon" className="rounded-full w-8 h-8 text-foreground/40 hover:text-foreground hover:bg-foreground/[0.03]">
-                        <Share2 className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                    </Button>
+            {/* ===== SIDEBAR (Right) ===== */}
+            <div className="w-full md:w-[400px] lg:w-[420px] bg-white dark:bg-[#0d0d0d] border-l border-black/5 dark:border-white/5 flex flex-col h-full overflow-hidden">
+
+                {/* Sidebar Header */}
+                <div className="px-6 pt-6 pb-5 border-b border-black/5 dark:border-white/5">
+                    <p className="text-[11px] uppercase tracking-[0.15em] text-foreground/40 font-semibold">Personalizar Capa</p>
+                    <h1 className="text-xl font-bold tracking-tight text-foreground mt-1">{selectedModel.name}</h1>
+                    <p className="text-base text-foreground/70 font-light mt-1">R$ 89,90</p>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide">
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto">
+                    <div className="px-6 py-6 space-y-8">
 
-                    {/* Aparelho Selection */}
-                    <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                            <h3 className="text-[11px] font-bold uppercase tracking-widest text-foreground/70">Aparelho Selecionado</h3>
-                            <button className="text-[11px] font-medium text-foreground underline underline-offset-4 hover:opacity-70 transition-opacity">Trocar</button>
+                        {/* ── Step 1: Model Selection ── */}
+                        <div className="space-y-3">
+                            <p className="text-[11px] uppercase tracking-[0.15em] text-foreground/50 font-bold flex items-center gap-1.5">
+                                <Smartphone className="w-3.5 h-3.5" />
+                                1. Modelo do Celular
+                            </p>
+
+                            <button
+                                onClick={() => setShowModelPicker(!showModelPicker)}
+                                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-[#fafafa] dark:bg-[#161616] hover:border-black/20 dark:hover:border-white/20 transition-colors"
+                            >
+                                <span className="text-[14px] font-medium">{selectedModel.name}</span>
+                                <ChevronDown className={`w-4 h-4 text-foreground/40 transition-transform ${showModelPicker ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {showModelPicker && (
+                                <div className="border border-black/10 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#161616] max-h-[240px] overflow-y-auto">
+                                    {PHONE_MODELS.map((model) => (
+                                        <button
+                                            key={model.id}
+                                            onClick={() => { setSelectedModel(model); setShowModelPicker(false); }}
+                                            className={`w-full flex items-center justify-between px-4 py-3 text-left hover:bg-black/3 dark:hover:bg-white/5 transition-colors border-b border-black/5 dark:border-white/5 last:border-b-0 ${selectedModel.id === model.id ? 'bg-black/5 dark:bg-white/5' : ''
+                                                }`}
+                                        >
+                                            <div>
+                                                <p className="text-[13px] font-medium">{model.name}</p>
+                                                <p className="text-[11px] text-foreground/40">{model.brand}</p>
+                                            </div>
+                                            {selectedModel.id === model.id && (
+                                                <div className="w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
+                                                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                                        <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-background" />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
-                        <div className="flex items-center gap-4 p-4 border border-foreground/[0.08] rounded-2xl bg-background">
-                            <div className="w-12 h-20 bg-[#f0f0f0] dark:bg-[#1a1a1a] rounded-lg border border-foreground/[0.05] flex items-center justify-center">
-                                {/* small mockup icon placeholder */}
+                        {/* ── Step 2: Case Color ── */}
+                        <div className="space-y-3">
+                            <p className="text-[11px] uppercase tracking-[0.15em] text-foreground/50 font-bold">
+                                2. Cor da Capa
+                            </p>
+                            <div className="flex items-center gap-3 flex-wrap">
+                                {CASE_COLORS.map((color) => (
+                                    <button
+                                        key={color.id}
+                                        onClick={() => setSelectedColor(color)}
+                                        className={`group relative w-10 h-10 rounded-full border-2 transition-all ${selectedColor.id === color.id
+                                                ? 'border-foreground scale-110'
+                                                : 'border-black/10 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30'
+                                            }`}
+                                        title={color.name}
+                                    >
+                                        <div
+                                            className="absolute inset-1 rounded-full"
+                                            style={{
+                                                backgroundColor: color.hex === "transparent" ? undefined : color.hex,
+                                                backgroundImage: color.hex === "transparent"
+                                                    ? "repeating-conic-gradient(#d4d4d4 0% 25%, transparent 0% 50%) 50% / 8px 8px"
+                                                    : undefined,
+                                            }}
+                                        />
+                                    </button>
+                                ))}
                             </div>
-                            <div>
-                                <p className="text-sm font-semibold">iPhone 15 Pro Max</p>
-                                <p className="text-[12px] text-foreground/50 font-light mt-0.5">Série Ultra Proteção</p>
-                            </div>
+                            <p className="text-[11px] text-foreground/40">{selectedColor.name}</p>
                         </div>
+
+                        {/* ── Step 3: Upload Image ── */}
+                        <div className="space-y-3">
+                            <p className="text-[11px] uppercase tracking-[0.15em] text-foreground/50 font-bold flex items-center gap-1.5">
+                                <Upload className="w-3.5 h-3.5" />
+                                3. Sua Imagem
+                            </p>
+
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileUpload}
+                                accept="image/png, image/jpeg, image/webp"
+                                className="hidden"
+                            />
+
+                            {!uploadedImage ? (
+                                <button
+                                    onClick={triggerUpload}
+                                    className="w-full border-2 border-dashed border-black/15 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30 rounded-xl px-6 py-8 flex flex-col items-center gap-3 transition-colors group cursor-pointer"
+                                >
+                                    <div className="w-12 h-12 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors">
+                                        <Upload className="w-5 h-5 text-foreground/50" strokeWidth={1.5} />
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-[13px] font-medium text-foreground">Escolher Imagem</p>
+                                        <p className="text-[11px] text-foreground/40 mt-1">JPG, PNG · Máx 10MB</p>
+                                    </div>
+                                </button>
+                            ) : (
+                                <div className="space-y-3">
+                                    <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5">
+                                        <Image
+                                            src={uploadedImage}
+                                            alt="Preview da imagem"
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={triggerUpload}
+                                            className="flex-1 text-center py-2.5 rounded-lg bg-black/5 dark:bg-white/5 text-[12px] font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+                                        >
+                                            Trocar Imagem
+                                        </button>
+                                        <button
+                                            onClick={() => setUploadedImage(null)}
+                                            className="px-4 py-2.5 rounded-lg text-[12px] font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                                        >
+                                            Remover
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <p className="text-[11px] text-foreground/30 font-light">
+                                Arraste a imagem no preview para reposicionar
+                            </p>
+                        </div>
+
                     </div>
-
-                    {/* Upload Área Minimalista */}
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                            <h3 className="text-[11px] font-bold uppercase tracking-widest text-foreground/70">Design da Superfície</h3>
-                            <Info className="w-3 h-3 text-foreground/30" />
-                        </div>
-
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handleFileUpload}
-                            accept="image/png, image/jpeg, image/webp"
-                            className="hidden"
-                        />
-
-                        <div
-                            onClick={triggerUpload}
-                            className="group relative border border-dashed border-foreground/20 hover:border-foreground/40 bg-foreground/[0.01] rounded-2xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all"
-                        >
-                            <div className="w-10 h-10 rounded-full bg-background border border-foreground/[0.05] shadow-sm text-foreground flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                                <Upload className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                            </div>
-                            <div className="text-center">
-                                <p className="text-[13px] font-medium text-foreground">
-                                    {uploadedImage ? "Imagem carregada (clique para trocar)" : "Faça upload da sua arte"}
-                                </p>
-                                <p className="text-[11px] text-foreground/40 font-light mt-1.5">
-                                    JPG, PNG. Máx 10MB.<br />Aspect Ratio 9:19.
-                                </p>
-                            </div>
-                        </div>
-
-                        {uploadedImage && (
-                            <div className="flex justify-end pt-1">
-                                <button onClick={() => setUploadedImage(null)} className="text-[11px] text-red-500 hover:text-red-600 font-medium">Remover Imagem</button>
-                            </div>
-                        )}
-                    </div>
-
                 </div>
 
-                <div className="p-6 border-t border-foreground/[0.03] bg-background">
-                    <Button className="w-full h-14 rounded-full bg-foreground hover:bg-foreground/90 text-background text-[13px] font-medium tracking-wide shadow-none transition-all hover:scale-[1.02] active:scale-[0.98]">
+                {/* Buy CTA */}
+                <div className="px-6 py-5 border-t border-black/5 dark:border-white/5 bg-white dark:bg-[#0d0d0d]">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <p className="text-[12px] text-foreground/40">Total</p>
+                            <p className="text-xl font-bold">R$ 89,90</p>
+                        </div>
+                        <p className="text-[11px] text-foreground/40 text-right">Frete calculado<br />no checkout</p>
+                    </div>
+                    <Button className="w-full h-12 rounded-xl bg-foreground hover:bg-foreground/90 text-background text-[13px] font-semibold tracking-wide transition-all hover:scale-[1.01] active:scale-[0.99] gap-2">
+                        <ShoppingCart className="w-4 h-4" />
                         Adicionar ao Carrinho
                     </Button>
-                    <p className="text-center text-[10px] text-foreground/40 mt-4 font-light">
-                        Produção em 2-3 dias úteis. Frete calculado no checkout.
+                    <p className="text-center text-[10px] text-foreground/30 mt-3">
+                        Produção em 2-3 dias úteis
                     </p>
                 </div>
 
             </div>
-
         </div>
     );
 }
