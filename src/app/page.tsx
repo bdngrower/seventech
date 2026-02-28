@@ -1,151 +1,168 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles, ShieldCheck, Zap } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ShieldCheck, Zap, Droplets, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background selection:bg-foreground/10">
+    <div className="flex min-h-screen flex-col bg-[#FBFBFD] dark:bg-[#000000] selection:bg-foreground/10">
 
-      {/* Brutalist / Minimalist Hero */}
-      <section className="relative flex h-[90vh] min-h-[700px] w-full items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 bg-[#F5F5F7] dark:bg-[#000000] -z-10" />
-
-        <div className="container relative z-10 mx-auto px-6 text-center mt-12">
-          <h1 className="mx-auto max-w-4xl text-[10vw] font-bold leading-[0.85] tracking-tighter text-foreground md:text-[8vw] lg:text-[7rem]">
-            Faça. <br className="md:hidden" />A Sua. <br className="md:hidden" />
-            <span className="text-foreground/40 italic font-medium">Marcante.</span>
+      {/* ===== HERO SECTION ===== */}
+      <section className="relative w-full pt-[140px] pb-24 md:pt-[180px] md:pb-32 overflow-hidden flex flex-col items-center text-center">
+        <div className="container mx-auto px-6 relative z-10">
+          <h2 className="text-[12px] md:text-[14px] uppercase tracking-[0.2em] font-bold text-foreground/50 mb-6">
+            A Nova Geração
+          </h2>
+          <h1 className="text-5xl md:text-7xl lg:text-[90px] font-bold tracking-tight text-foreground leading-[1.05] max-w-5xl mx-auto">
+            A sua história. <br />
+            Na sua mão.
           </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-[15px] md:text-lg font-light tracking-wide text-foreground/60">
-            O design que você imagina. A proteção que seu dispositivo precisa.
-            Personalize sua própria capa protetora de grau militar no nosso estúdio 3D.
+          <p className="mt-8 text-lg md:text-xl font-light text-foreground/60 max-w-2xl mx-auto leading-relaxed">
+            Proteção de nível militar com o design que só você poderia criar.
+            Bem-vindo ao estúdio de cases mais avançado da internet.
           </p>
-          <div className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row">
+
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/personalizar">
-              <Button
-                size="lg"
-                className="h-14 rounded-full bg-foreground px-10 text-[13px] font-medium tracking-wide text-background hover:bg-foreground/90 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-foreground/10"
-              >
-                Criar Agora <ArrowRight className="ml-2 h-4 w-4" />
+              <Button size="lg" className="h-14 rounded-full bg-foreground text-background px-8 text-[15px] font-medium hover:scale-105 transition-transform">
+                Criar a Minha Agora
               </Button>
             </Link>
-            <Link
-              href="/produtos"
-              className="group flex h-14 items-center justify-center rounded-full px-8 text-[13px] font-medium tracking-wide text-foreground hover:bg-foreground/[0.03] transition-colors"
-            >
-              Explorar Coleção
+            <Link href="/produtos">
+              <Button size="lg" variant="outline" className="h-14 rounded-full px-8 text-[15px] font-medium bg-transparent border-foreground/20 hover:bg-foreground/5 transition-colors">
+                Explorar Coleções <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
             </Link>
           </div>
+        </div>
 
-          {/* Minimalist device mockup hint */}
-          <div className="mt-20 mx-auto w-full max-w-[800px] h-[300px] rounded-t-[3rem] bg-gradient-to-t from-background to-transparent border-t border-x border-foreground/[0.05] relative overflow-hidden">
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[240px] h-[400px] bg-foreground/5 rounded-[3rem] border-8 border-background shadow-2xl flex items-center justify-center">
-              <span className="text-foreground/20 text-xs tracking-widest uppercase font-medium">Crie sua Arte</span>
-            </div>
+        {/* Hero Image / 3D Mockup Area */}
+        <div className="mt-16 md:mt-24 w-full max-w-[1200px] mx-auto px-6">
+          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[40px] overflow-hidden bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 shadow-2xl">
+            {/* Using a high-quality placeholder image for the hero case showcase */}
+            <Image
+              src="https://images.unsplash.com/photo-1601593346740-925612772716?q=80&w=2600&auto=format&fit=crop"
+              alt="Premium Phone Case Preview"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           </div>
         </div>
       </section>
 
-      {/* Value Proposition - Clean Grid */}
-      <section className="w-full bg-background py-32 md:py-48 border-t border-foreground/[0.03]">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-6xl mx-auto">
-            <div className="flex flex-col items-center text-center space-y-5">
-              <div className="h-16 w-16 rounded-full bg-foreground/[0.03] flex items-center justify-center mb-2">
-                <Sparkles className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+
+      {/* ===== FEATURES GRID (Apple Style) ===== */}
+      <section className="w-full py-24 bg-white dark:bg-[#0a0a0a]">
+        <div className="container mx-auto px-6 max-w-[1200px]">
+          <div className="text-center mb-20">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Menos plástico.<br /> Mais personalidade.</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {/* Feature 1 */}
+            <div className="bg-[#f5f5f7] dark:bg-[#111111] rounded-[32px] p-10 md:p-14 flex flex-col items-center text-center overflow-hidden relative group">
+              <div className="w-16 h-16 bg-white dark:bg-black rounded-2xl flex items-center justify-center shadow-sm mb-8 z-10">
+                <Smartphone className="w-8 h-8 text-foreground" />
               </div>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground">Design Ilimitado</h3>
-              <p className="text-[14px] leading-relaxed font-light text-foreground/60 max-w-[280px]">
-                Upload de imagens, textos e padrões. Sua criatividade é o limite no nosso editor Studio.
-              </p>
+              <h3 className="text-2xl font-bold mb-4 z-10">Feito para o seu aparelho</h3>
+              <p className="text-foreground/60 font-medium z-10">Ajuste milimétrico para os principais modelos de iPhone e Galaxy do mercado. Bordas elevadas para tela e câmera.</p>
             </div>
 
-            <div className="flex flex-col items-center text-center space-y-5">
-              <div className="h-16 w-16 rounded-full bg-foreground/[0.03] flex items-center justify-center mb-2">
-                <ShieldCheck className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+            {/* Feature 2 */}
+            <div className="bg-[#f5f5f7] dark:bg-[#111111] rounded-[32px] p-10 md:p-14 flex flex-col items-center text-center overflow-hidden relative">
+              <div className="w-16 h-16 bg-white dark:bg-black rounded-2xl flex items-center justify-center shadow-sm mb-8 z-10">
+                <ShieldCheck className="w-8 h-8 text-foreground" />
               </div>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground">Ultra Proteção</h3>
-              <p className="text-[14px] leading-relaxed font-light text-foreground/60 max-w-[280px]">
-                Laterais absorventes de impacto tátil e fundo rígido resistente a riscos.
-              </p>
+              <h3 className="text-2xl font-bold mb-4 z-10">Armor Tech Pro</h3>
+              <p className="text-foreground/60 font-medium z-10">Proteções em testes de queda de até 3 metros. Laterais em TPU flexível que absorvem impacto com excelência.</p>
             </div>
 
-            <div className="flex flex-col items-center text-center space-y-5">
-              <div className="h-16 w-16 rounded-full bg-foreground/[0.03] flex items-center justify-center mb-2">
-                <Zap className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+            {/* Feature 3 (Full Width) */}
+            <div className="md:col-span-2 bg-[#f5f5f7] dark:bg-[#111111] rounded-[32px] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
+              <div className="flex-1 text-left z-10">
+                <div className="w-16 h-16 bg-white dark:bg-black rounded-2xl flex items-center justify-center shadow-sm mb-8">
+                  <Zap className="w-8 h-8 text-foreground" />
+                </div>
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">Suas Cores. Vivas.</h3>
+                <p className="text-lg text-foreground/60 font-medium max-w-md">Impressão UV de altíssima definição que injeta a tinta nas fibras da capa. Não descasca, não desbota e mantém o brilho por anos.</p>
               </div>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground">Impressão HD</h3>
-              <p className="text-[14px] leading-relaxed font-light text-foreground/60 max-w-[280px]">
-                Cores precisas e vibrantes aplicadas diretamente na superfície com cura UV de alta durabilidade.
-              </p>
+              <div className="flex-1 relative w-full h-[300px] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1541514757530-9b41e9d1bf72?q=80&w=800&auto=format&fit=crop"
+                  alt="High Quality Print Detail"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Featured / Bestsellers Minimalist Section */}
-      <section className="relative w-full overflow-hidden bg-[#F5F5F7] dark:bg-[#0A0A0A] py-32 md:py-48">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <div className="mb-20 flex flex-col items-end md:flex-row md:justify-between md:items-end gap-6">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-foreground max-w-md">
-              Coleções Especiais.
-            </h2>
-            <Link
-              href="/produtos"
-              className="text-[13px] uppercase tracking-widest font-medium text-foreground hover:opacity-70 transition-opacity border-b border-foreground/20 pb-1"
-            >
-              Ver Todas
+
+      {/* ===== BESTSELLERS / CATEGORIES ===== */}
+      <section className="w-full py-32 bg-[#FBFBFD] dark:bg-[#000000]">
+        <div className="container mx-auto px-6 max-w-[1200px]">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Prontas para você.</h2>
+            <Link href="/produtos" className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
+              Ver todas as coleções <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Produto 1 */}
-            <Link href="/produto/case-carbon-black" className="group block">
-              <div className="aspect-[4/5] bg-background rounded-3xl overflow-hidden relative mb-6">
-                <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02] group-hover:bg-foreground/[0.05] transition-colors duration-500">
-                  <div className="w-[180px] h-[360px] bg-black rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3" />
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Product Card 1 */}
+            <Link href="/produto/case-carbon" className="group">
+              <div className="relative w-full aspect-[4/5] rounded-[32px] overflow-hidden bg-[#E2E2E6] dark:bg-[#1C1C1E] mb-6">
+                <Image
+                  src="https://images.unsplash.com/photo-1586953208448-b95a79279fce?q=80&w=800&auto=format&fit=crop"
+                  alt="Carbon Case"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
               </div>
-              <div className="flex justify-between items-start px-2">
-                <div>
-                  <h3 className="text-base font-semibold text-foreground tracking-tight">Onyx Black</h3>
-                  <p className="text-[13px] text-foreground/50 font-light mt-1">Série Minimal</p>
-                </div>
-                <span className="text-[13px] font-medium tracking-wide">R$ 149</span>
-              </div>
-            </Link>
-
-            {/* Produto 2 */}
-            <Link href="/produto/case-clear-magsafe" className="group block">
-              <div className="aspect-[4/5] bg-background rounded-3xl overflow-hidden relative mb-6">
-                <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02] group-hover:bg-foreground/[0.05] transition-colors duration-500">
-                  <div className="w-[180px] h-[360px] bg-transparent border-2 border-foreground/10 rounded-[2.5rem] shadow-lg transition-transform duration-700 group-hover:scale-105 group-hover:rotate-3 backdrop-blur-md" />
-                </div>
-                <div className="absolute top-6 left-6 bg-foreground text-background text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                  Bestseller
-                </div>
-              </div>
-              <div className="flex justify-between items-start px-2">
-                <div>
-                  <h3 className="text-base font-semibold text-foreground tracking-tight">Clear Glass</h3>
-                  <p className="text-[13px] text-foreground/50 font-light mt-1">Série Transparente</p>
-                </div>
-                <span className="text-[13px] font-medium tracking-wide">R$ 129</span>
+              <div className="px-2">
+                <span className="text-[11px] uppercase tracking-widest text-foreground/50 font-bold mb-2 block">Série Premium</span>
+                <h3 className="text-xl font-bold text-foreground">Carbon Flow</h3>
+                <p className="text-foreground/60 font-medium mt-1">R$ 149</p>
               </div>
             </Link>
 
-            {/* Produto 3 */}
-            <Link href="/produto/case-leather-brown" className="group block hidden lg:block">
-              <div className="aspect-[4/5] bg-background rounded-3xl overflow-hidden relative mb-6">
-                <div className="absolute inset-0 flex items-center justify-center bg-foreground/[0.02] group-hover:bg-foreground/[0.05] transition-colors duration-500">
-                  <div className="w-[180px] h-[360px] bg-[#8B5A2B] rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-110" />
-                </div>
+            {/* Product Card 2 */}
+            <Link href="/produto/case-clear" className="group">
+              <div className="relative w-full aspect-[4/5] rounded-[32px] overflow-hidden bg-[#E2E2E6] dark:bg-[#1C1C1E] mb-6">
+                <Image
+                  src="https://images.unsplash.com/photo-1620843437120-18C8B3f0E306?q=80&w=800&auto=format&fit=crop"
+                  alt="Clear Case"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute top-6 left-6 bg-white dark:bg-black text-xs font-bold px-4 py-2 rounded-full">Bestseller</div>
               </div>
-              <div className="flex justify-between items-start px-2">
-                <div>
-                  <h3 className="text-base font-semibold text-foreground tracking-tight">Saddle Brown</h3>
-                  <p className="text-[13px] text-foreground/50 font-light mt-1">Série Couro</p>
+              <div className="px-2">
+                <span className="text-[11px] uppercase tracking-widest text-foreground/50 font-bold mb-2 block">Série Transparente</span>
+                <h3 className="text-xl font-bold text-foreground">Clear Pure</h3>
+                <p className="text-foreground/60 font-medium mt-1">R$ 119</p>
+              </div>
+            </Link>
+
+            {/* Product Card 3 */}
+            <Link href="/personalizar" className="group">
+              <div className="relative w-full aspect-[4/5] rounded-[32px] overflow-hidden bg-foreground text-background mb-6 flex flex-col items-center justify-center p-8 text-center group-hover:bg-foreground/90 transition-colors">
+                <div className="w-16 h-16 rounded-full bg-background/10 flex items-center justify-center mb-6">
+                  <Droplets className="w-8 h-8" />
                 </div>
-                <span className="text-[13px] font-medium tracking-wide">R$ 189</span>
+                <h3 className="text-3xl font-bold mb-4">Crie a sua.</h3>
+                <p className="text-background/70 font-medium">Use fotos, textos e cores para montar uma capa 100% exclusiva.</p>
+              </div>
+              <div className="px-2">
+                <span className="text-[11px] uppercase tracking-widest text-foreground/50 font-bold mb-2 block">Estúdio de Criação</span>
+                <h3 className="text-xl font-bold text-foreground">Sua Capa Personalizada</h3>
+                <p className="text-foreground/60 font-medium mt-1">A partir de R$ 89</p>
               </div>
             </Link>
           </div>
@@ -155,3 +172,4 @@ export default function HomePage() {
     </div>
   );
 }
+
